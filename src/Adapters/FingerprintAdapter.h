@@ -21,6 +21,7 @@ public:
     int16_t scan() override;
     bool startEnroll(uint8_t slotId) override;
     bool captureStep(uint8_t step) override;
+    int16_t searchCurrentTemplate() override;
     bool saveModel(uint8_t slotId) override;
     bool deleteModel(uint8_t slotId) override;
     bool clearDatabase() override;

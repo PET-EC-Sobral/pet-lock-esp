@@ -40,6 +40,18 @@ bool EnrollUseCase::enrollFingerprint(uint8_t userId, uint8_t fingerId, const St
         return false;
     }
     
+    // Verifica se a digital já está cadastrada no sensor antes de pedir o passo 2
+    int16_t existingSlot = _fingerprint.searchCurrentTemplate();
+    if (existingSlot > 0) {
+        Serial.printf("[Enroll] Digital duplicada detectada no slot %d. Abortando cadastro.\n", existingSlot);
+        _fingerprint.waitFingerReleased(); // Aguarda retirada do dedo para feedback tátil claro
+        _fingerprint.setLed(FingerprintLedMode::FLASHING, FingerprintColor::RED, 3);
+        _display.showEnrollFailed("Digital ja cadastrada");
+        _bluetooth.sendEnrollStatus("failed", "already_registered");
+        _sound.playDenied();
+        return false;
+    }
+    
     _sound.playCardDefined(); // Beep curto de confirmacao do passo 1
     
     // Passo 2

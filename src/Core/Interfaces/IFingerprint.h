@@ -27,6 +27,7 @@ public:
     virtual int16_t scan() = 0; // Retorna index (1-40) se correspondência encontrada, 0 se sem dedo, -1 se não cadastrada, -2 se erro
     virtual bool startEnroll(uint8_t slotId) = 0;
     virtual bool captureStep(uint8_t step) = 0; // Passo 1 e Passo 2
+    virtual int16_t searchCurrentTemplate() = 0; // Busca template do buffer 1 no banco. Retorna slot (1-40) se já cadastrada, 0 se não encontrada, -1 se erro
     virtual bool saveModel(uint8_t slotId) = 0;
     virtual bool deleteModel(uint8_t slotId) = 0;
     virtual bool clearDatabase() = 0;

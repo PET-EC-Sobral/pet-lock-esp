@@ -93,6 +93,22 @@ bool FingerprintAdapter::captureStep(uint8_t step) {
     return true;
 }
 
+int16_t FingerprintAdapter::searchCurrentTemplate() {
+    // O template já está no CharBuffer1 após captureStep(1).
+    // fingerSearch() usa o buffer 1 para varrer todos os slots cadastrados no sensor.
+    flushRx();
+    uint8_t p = _finger.fingerSearch();
+    if (p == FINGERPRINT_OK) {
+        Serial.printf("[Fingerprint] searchCurrentTemplate: digital ja cadastrada no slot %d (confidence %d)\n",
+                      _finger.fingerID, _finger.confidence);
+        return _finger.fingerID; // Slot onde a digital já está gravada (1-40)
+    } else if (p == FINGERPRINT_NOTFOUND) {
+        return 0; // Não encontrada — ok para prosseguir com o cadastro
+    }
+    Serial.printf("[Fingerprint] searchCurrentTemplate: erro de comunicacao (0x%02X)\n", p);
+    return -1; // Erro de comunicação
+}
+
 bool FingerprintAdapter::saveModel(uint8_t slotId) {
     flushRx();
     int p = _finger.createModel();
