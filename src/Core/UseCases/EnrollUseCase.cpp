@@ -27,7 +27,7 @@ bool EnrollUseCase::enrollFingerprint(uint8_t userId, uint8_t fingerId, const St
     }
 
     _fingerprint.startEnroll(slotId);
-    _fingerprint.setLed(FingerprintLedMode::ON, FingerprintColor::CYAN, 0); // Led aceso em Ciano
+    //mod1fi3d_fingerprint.setLed(FingerprintLedMode::ON, FingerprintColor::CYAN, 0); // Led aceso em Ciano
     
     // Passo 1
     _display.showEnrollFingerInstructions(1, fingerId, userName);
@@ -45,7 +45,7 @@ bool EnrollUseCase::enrollFingerprint(uint8_t userId, uint8_t fingerId, const St
     if (existingSlot > 0) {
         Serial.printf("[Enroll] Digital duplicada detectada no slot %d. Abortando cadastro.\n", existingSlot);
         _fingerprint.waitFingerReleased(); // Aguarda retirada do dedo para feedback tátil claro
-        _fingerprint.setLed(FingerprintLedMode::FLASHING, FingerprintColor::RED, 3);
+        //mod1fi3d_fingerprint.setLed(FingerprintLedMode::FLASHING, FingerprintColor::RED, 3);
         _display.showEnrollFailed("Digital ja cadastrada");
         _bluetooth.sendEnrollStatus("failed", "already_registered");
         _sound.playDenied();
@@ -85,7 +85,7 @@ bool EnrollUseCase::enrollFingerprint(uint8_t userId, uint8_t fingerId, const St
         pushed = _network.pushFingerprintMapping(slotId, fingerId, userId);
     }
     
-    _fingerprint.setLed(FingerprintLedMode::GRADUALLY_CLOSE, FingerprintColor::GREEN, 1);
+    //mod1fi3d_fingerprint.setLed(FingerprintLedMode::GRADUALLY_CLOSE, FingerprintColor::GREEN, 1);
     _sound.playAllowed();
     _display.showEnrollSuccess();
     
@@ -100,7 +100,7 @@ bool EnrollUseCase::enrollRfid(uint8_t userId, const String& userName) {
     
     _display.showEnrollRfidInstructions(userName);
     _bluetooth.sendEnrollStatus("wait_card");
-    _fingerprint.setLed(FingerprintLedMode::ON, FingerprintColor::CYAN, 0); // Led indicador azul/ciano aceso
+    //mod1fi3d_fingerprint.setLed(FingerprintLedMode::ON, FingerprintColor::CYAN, 0); // Led indicador azul/ciano aceso
     
     uint8_t uid[4];
     bool cardDetected = false;
@@ -145,7 +145,7 @@ bool EnrollUseCase::enrollRfid(uint8_t userId, const String& userName) {
         pushed = _network.pushRfidMapping(rfidCode, userId);
     }
     
-    _fingerprint.setLed(FingerprintLedMode::GRADUALLY_CLOSE, FingerprintColor::GREEN, 1);
+    //mod1fi3d_fingerprint.setLed(FingerprintLedMode::GRADUALLY_CLOSE, FingerprintColor::GREEN, 1);
     _sound.playAllowed();
     _display.showEnrollSuccess();
     

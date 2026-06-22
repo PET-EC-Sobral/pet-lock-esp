@@ -94,7 +94,7 @@ void AccessControlUseCase::processFingerprintAccess(uint8_t index) {
         _sound.playAllowed();
         
         // Led do leitor pisca em Verde
-        _fingerprint.setLed(FingerprintLedMode::FLASHING, FingerprintColor::GREEN, 2);
+        //mod1fi3d_fingerprint.setLed(FingerprintLedMode::FLASHING, FingerprintColor::GREEN, 2); //mod1fi3d
         
         String userName = "";
         _storage.getUserName(userId, userName);
@@ -166,7 +166,7 @@ void AccessControlUseCase::handleAccessDenied(AccessMethod method) {
     _sound.playDenied();
     
     if (method == AccessMethod::FINGERPRINT) {
-        _fingerprint.setLed(FingerprintLedMode::FLASHING, FingerprintColor::RED, 2);
+        //mod1fi3d_fingerprint.setLed(FingerprintLedMode::FLASHING, FingerprintColor::RED, 2);
     }
     
     _display.showDenied();
